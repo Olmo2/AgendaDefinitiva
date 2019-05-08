@@ -1,14 +1,10 @@
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -177,7 +173,7 @@ public class Agenda extends TreeMap<String,String>{
 					break;
 				// se valida la sintaxis de 'guardar:ruta'
 					case 10:
-						token = s.skip("([a-zA-Z:])*/([A-z0-9-_+]+/)*([A-z0-9]+.(txt))").match().group();
+						token = s.skip("([a-zA-Z]:\\\\([A-z0-9]+\\\\)*[A-z0-9]+.txt)|([a-zA-Z]:/([A-z0-9]+/)*[A-z0-9]+.txt)").match().group();
 						try {
 							 out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(token), "UTF-8"));
 						
@@ -191,6 +187,7 @@ public class Agenda extends TreeMap<String,String>{
 										e.printStackTrace();
 									}
 								});
+								System.out.println("Archivo guardado con exito en: " + token);
 								estado=5;
 
 						} catch (UnsupportedEncodingException | FileNotFoundException ex2) {
@@ -211,7 +208,7 @@ public class Agenda extends TreeMap<String,String>{
 				case 11:
 					//^([a-zA-Z:])*\\([A-z0-9-_+]+\\)*([A-z0-9]+.(txt))$
 					try{
-						token = s.skip("([a-zA-Z:])*/([A-z0-9-_+]+/)*([A-z0-9]+.(txt))").match().group();
+						token = s.skip("([a-zA-Z]:\\\\([A-z0-9]+\\\\)*[A-z0-9]+.txt)|([a-zA-Z]:/([A-z0-9]+/)*[A-z0-9]+.txt)").match().group();
 						System.out.println(token);
 						File fichero = new File(token);
 					
